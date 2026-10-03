@@ -1,3 +1,5 @@
+**English** | [中文](README.zh.md)
+
 # dsh-compaction-prune
 
 **Proactive tool-result pruning for DeepSeek Harness — fewer compaction attempts, so a failing compaction has fewer chances to fail.**
@@ -5,7 +7,7 @@
 > **This plugin is deliberately incomplete.** It addresses one narrow symptom of a
 > larger problem and cannot address the rest. Read
 > [`LIMITATIONS.md`](LIMITATIONS.md) before relying on it, and
-> [`dsh-compaction-guide`](https://github.com/deepseek-ai/deepseek-harness/discussions)
+> [`dsh-compaction-guide`](https://github.com/WASD258-jpg/dsh-compaction-guide)
 > for the surrounding analysis. If you are looking for a fix that stops a session
 > from dying, this is not it.
 
@@ -176,6 +178,11 @@ Three suites, all runnable without a live session:
 - `tests/decide.spec.mjs` — decision logic, every branch, plus negative cases
 - `tests/mount.spec.mjs` — mounting, config validation, optional dependencies
 - `tests/config-loading.spec.mjs` — how configuration reaches the plugin
+- `tests/availability.spec.mjs` — package-name resolution and import
+- `tests/loader-e2e.spec.mjs` — boot through the real Cordis Loader
+
+Five suites, all runnable without a live session. See
+[Verification status](#verification-status) for what they do and do not prove.
 
 ---
 

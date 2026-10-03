@@ -93,7 +93,7 @@ jobs:
 
       - name: Required files exist
         run: |
-          for f in README.md LIMITATIONS.md LICENSE src/index.js cordis.patch.yml; do
+          for f in README.md README.zh.md LIMITATIONS.md LIMITATIONS.zh.md LICENSE src/index.js cordis.patch.yml; do
             [ -f "$f" ] || { echo "missing: $f"; exit 1; }
             echo "ok: $f"
           done
@@ -104,7 +104,7 @@ jobs:
           const fs = require('node:fs')
           const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'))
           const files = pkg.files ?? []
-          const required = ['README.md', 'LIMITATIONS.md', 'LICENSE']
+          const required = ['README.md', 'README.zh.md', 'LIMITATIONS.md', 'LIMITATIONS.zh.md', 'LICENSE']
           const missing = required.filter(f => !files.includes(f))
           if (missing.length) {
             console.error('package.json files[] omits: ' + missing.join(', '))
@@ -138,22 +138,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: README states the unverified claim
+      - name: README states the unverified claim, in BOTH languages
         run: |
           # This plugin's whole credibility rests on stating what it cannot do.
           # If a future edit removes the limitation section, fail.
-          for f in README.md; do
-            grep -q 'LIMITATIONS.md' "$f" || {
-              echo "$f must link LIMITATIONS.md"; exit 1; }
-            grep -qiE 'not a fix|deliberately incomplete|partial' "$f" || {
-              echo "$f must state that this is a partial measure"; exit 1; }
+          #
+          # The Chinese version is checked too. A translation that quietly drops a
+          # caveat would make the Chinese README more confident than the evidence
+          # supports -- the exact failure this repository exists to document, and
+          # one that is easy to introduce because it does not break any build.
+          grep -q 'LIMITATIONS.md' README.md || { echo "README.md must link LIMITATIONS.md"; exit 1; }
+          grep -qiE 'not a fix|deliberately incomplete|partial' README.md || {
+            echo "README.md must state that this is a partial measure"; exit 1; }
+
+          grep -q 'LIMITATIONS' README.zh.md || { echo "README.zh.md must link LIMITATIONS"; exit 1; }
+          grep -qE '刻意不完整|不是修复|部分措施' README.zh.md || {
+            echo "README.zh.md must state that this is a partial measure"; exit 1; }
+          grep -q '未验证' README.zh.md || {
+            echo "README.zh.md must carry the unverified-effect claim"; exit 1; }
+
+          echo "ok: README.md and README.zh.md"
+
+      - name: LIMITATIONS states the upstream requirements, in BOTH languages
+        run: |
+          for f in LIMITATIONS.md LIMITATIONS.zh.md; do
+            grep -q 'breakerTripped' "$f" || {
+              echo "$f must show the upstream guard that is needed"; exit 1; }
+            grep -q '7626' "$f" || {
+              echo "$f must cite the relevant upstream discussion"; exit 1; }
             echo "ok: $f"
           done
 
-      - name: LIMITATIONS states the upstream requirements
+      - name: Bilingual pairs are consistent
         run: |
-          grep -q 'breakerTripped' LIMITATIONS.md || {
-            echo "LIMITATIONS.md must show the upstream guard that is needed"; exit 1; }
-          grep -q '7626' LIMITATIONS.md || {
-            echo "LIMITATIONS.md must cite the relevant upstream discussion"; exit 1; }
-          echo "ok: LIMITATIONS.md"
+          node tools/check-language-pairs.mjs .
+          node tools/check-links.mjs .

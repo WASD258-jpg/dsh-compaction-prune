@@ -1,3 +1,5 @@
+**English** | [中文](LIMITATIONS.zh.md)
+
 # Limitations, and what upstream would need to do instead
 
 > This file exists because **this plugin is a partial measure and should not be
