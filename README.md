@@ -114,23 +114,54 @@ misspelled `triggerRatio` from producing a plugin that quietly never acts.
 
 ## Verification status
 
-**Stated precisely, because the distinction matters:**
+**Stated precisely, because the distinction matters.**
+
+### Availability — verified end-to-end
+
+The plugin was booted **through the real Cordis Loader**, the same path a
+deployment takes, with a real `cordis.yml`:
+
+| Claim | Result |
+|---|---|
+| Package name resolves from a profile's `node_modules` | pass |
+| `dsh.bundle.patch` is accepted and the patch entry composed | pass |
+| The Loader instantiates the plugin and registers `compactionPrune` | pass |
+| Default configuration is applied | pass |
+| An explicit `config:` block is honoured | pass |
+| Loads with **no** dependencies mounted (compositions without compaction) | pass |
+| A bad config prevents the service registering | pass |
+| A bad config emits an error naming the offending field | pass |
+
+That last pair deserves a note. **The Loader treats a plugin construction failure
+as non-fatal** — it logs and continues, which is the harness's design and not
+something a plugin can change. So a bad config does not stop `dsh` from starting.
+What it does do is keep the service from registering *and* log a message naming
+the field:
+
+```
+[error] CompactionPruneConfig: unknown key "triggerRatios"
+        (allowed: triggerRatio, minimumCharsRemoved, cooldownMs, mode)
+```
+
+**The plugin is not silently half-active; it is fully absent, with a findable
+error.**
+
+### Effect — not verified
 
 | Claim | Verified how |
 |---|---|
-| Configuration validation rejects bad input | 8 malformed inputs tested; all rejected with a field-naming message |
-| `decide()` behaves correctly on every branch | 6 branches tested, including two "must never act" cases |
-| The plugin mounts on a real Cordis context | Mounted with and without the dependency chain |
-| The plugin loads without the pruner mounted | Confirmed — `ctx.get()` returns `undefined`, the plugin stays inert |
-| **The plugin reduces compaction frequency in a live session** | **NOT VERIFIED.** |
+| Configuration validation rejects bad input | 8 malformed inputs, each rejected with a field-naming message |
+| `decide()` is correct on every branch | 6 branches, including two must-never-act cases |
+| **It reduces compaction frequency in a live session** | **NOT VERIFIED.** |
 
-That last row is the honest gap. The mechanism is sound and each step is tested in
-isolation, but **no measurement here demonstrates that enabling this plugin on a
-long session actually reduces compaction attempts**. That requires a controlled
+That last row is the honest gap. Every component is tested, and the plugin boots
+and configures correctly — but **no measurement demonstrates that enabling it on a
+long session actually reduces compaction attempts.** That needs a controlled
 before/after on a real workload, which has not been run.
 
-If you try it, the numbers worth reporting are: compaction attempts per session
-before and after, and `pruneSession()` results from the log.
+If you try it, the numbers worth reporting are compaction attempts per session
+with `mode: warn` versus `mode: prune`, plus the `pruneSession()` results in the
+log.
 
 ---
 

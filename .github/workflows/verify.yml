@@ -60,6 +60,12 @@ jobs:
       - name: Configuration loading
         run: node tests/config-loading.spec.mjs
 
+      - name: Package-name availability
+        run: node tests/availability.spec.mjs
+
+      - name: Boot through the real Cordis Loader
+        run: node tests/loader-e2e.spec.mjs
+
       - name: Test suites fail loudly on a positive problem marker
         run: |
           # Every suite prints [PROBLEM]/[FAIL]/[WRONGLY ACCEPTED] when something
