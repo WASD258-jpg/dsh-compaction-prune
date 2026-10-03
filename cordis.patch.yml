@@ -1,0 +1,14 @@
+# dsh bundle patch: inserts this plugin into a profile's layer stack.
+#
+# Configuration keys (all optional; see README.md):
+#   triggerRatio         fraction of the context window at which to prune (0.05–0.95)
+#   minimumCharsRemoved  minimum characters a prune must reclaim (>= 0)
+#   cooldownMs           minimum milliseconds between prunes (>= 0)
+#   mode                 off | warn | prune   (default: warn)
+- insert:
+    - id: compaction-prune
+      name: 'dsh-compaction-prune'
+      config:
+        # Observe first. This plugin mutates durable session state, so watch its
+        # decisions on real traffic before letting it act.
+        mode: warn

@@ -1,0 +1,13 @@
+# Normalize line endings: commit LF, check out however the host prefers.
+* text=auto eol=lf
+
+# Windows batch/PowerShell keep native endings.
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary — never touch.
+*.png binary
+*.jpg binary
+*.ico binary
+*.zstd binary
+*.jsonl.zstd binary

@@ -1,0 +1,153 @@
+name: verify
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Runs first: a leaked credential or local path is more serious than a test
+  # failure, and git history is not undone by a later commit.
+  privacy:
+    name: privacy gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: No credentials, local paths, private addresses, or session data
+        run: node privacy-check.mjs .
+
+      - name: Commit identity is not personal
+        run: |
+          BAD=$(git log --format='%an <%ae>%n%cn <%ce>' | sort -u \
+            | grep -vE 'noreply@example\.com|users\.noreply\.github\.com|^$' || true)
+          if [ -n "$BAD" ]; then
+            echo "Commit identity is not the neutral placeholder:"
+            echo "$BAD"
+            echo ""
+            echo "  git config user.name  dsh-compaction-prune"
+            echo "  git config user.email noreply@example.com"
+            exit 1
+          fi
+          echo "commit identity ok"
+
+  test:
+    name: tests
+    needs: privacy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # The plugin declares node >=22.19. Test the floor and the current LTS.
+        node: ['22.19', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install pinned harness packages
+        run: npm install --no-audit --no-fund
+
+      - name: Decision logic
+        run: node tests/decide.spec.mjs
+
+      - name: Mount behaviour and config validation
+        run: node tests/mount.spec.mjs
+
+      - name: Configuration loading
+        run: node tests/config-loading.spec.mjs
+
+      - name: Test suites fail loudly on a positive problem marker
+        run: |
+          # Every suite prints [PROBLEM]/[FAIL]/[WRONGLY ACCEPTED] when something
+          # is wrong. Assert none appear, so a suite cannot pass while reporting a
+          # defect it detected but did not exit on.
+          fail=0
+          for t in tests/*.spec.mjs; do
+            out=$(node "$t" 2>&1)
+            if echo "$out" | grep -qE '\[PROBLEM\]|\[FAIL\]|WRONGLY ACCEPTED'; then
+              echo "== $t reported a problem =="
+              echo "$out" | grep -E '\[PROBLEM\]|\[FAIL\]|WRONGLY ACCEPTED'
+              fail=1
+            fi
+          done
+          exit $fail
+
+  package:
+    name: package integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.19'
+
+      - name: Required files exist
+        run: |
+          for f in README.md LIMITATIONS.md LICENSE src/index.js cordis.patch.yml; do
+            [ -f "$f" ] || { echo "missing: $f"; exit 1; }
+            echo "ok: $f"
+          done
+
+      - name: package.json files[] covers required documents
+        run: |
+          node - <<'EOF'
+          const fs = require('node:fs')
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+          const files = pkg.files ?? []
+          const required = ['README.md', 'LIMITATIONS.md', 'LICENSE']
+          const missing = required.filter(f => !files.includes(f))
+          if (missing.length) {
+            console.error('package.json files[] omits: ' + missing.join(', '))
+            process.exit(1)
+          }
+          console.log('files[] covers all required documents')
+          EOF
+
+      - name: The plugin declares a Config and a bundle patch
+        run: |
+          node - <<'EOF'
+          const fs = require('node:fs')
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+          if (pkg.dsh?.bundle?.patch !== './cordis.patch.yml') {
+            console.error('package.json must declare dsh.bundle.patch')
+            process.exit(1)
+          }
+          const src = fs.readFileSync('src/index.js', 'utf8')
+          for (const need of ['export const Config', 'static Config', 'export const DEFAULTS']) {
+            if (!src.includes(need)) {
+              console.error('src/index.js is missing: ' + need)
+              process.exit(1)
+            }
+          }
+          console.log('plugin metadata present')
+          EOF
+
+  docs:
+    name: documentation honesty
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: README states the unverified claim
+        run: |
+          # This plugin's whole credibility rests on stating what it cannot do.
+          # If a future edit removes the limitation section, fail.
+          for f in README.md; do
+            grep -q 'LIMITATIONS.md' "$f" || {
+              echo "$f must link LIMITATIONS.md"; exit 1; }
+            grep -qiE 'not a fix|deliberately incomplete|partial' "$f" || {
+              echo "$f must state that this is a partial measure"; exit 1; }
+            echo "ok: $f"
+          done
+
+      - name: LIMITATIONS states the upstream requirements
+        run: |
+          grep -q 'breakerTripped' LIMITATIONS.md || {
+            echo "LIMITATIONS.md must show the upstream guard that is needed"; exit 1; }
+          grep -q '7626' LIMITATIONS.md || {
+            echo "LIMITATIONS.md must cite the relevant upstream discussion"; exit 1; }
+          echo "ok: LIMITATIONS.md"
