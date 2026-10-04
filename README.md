@@ -52,7 +52,9 @@
 ## The problem it narrows
 
 In the corpus analysed by `dsh-compaction-guide`, automatic compaction succeeded
-**9 times out of 51 (17.6%)**. Failures repeated without backoff — **18 consecutive
+**9 times out of 30 (30.0%)**. (An earlier version said 9/51 = 17.6%; that
+denominator counted a forked session's replay of its parent's compactions twice.
+See the guide's `CORRECTIONS.md`.) Failures repeated without backoff — **18 consecutive
 attempts in a single turn**, with intervals that never grew.
 
 The root cause is that the summarization request replays the compacted region
