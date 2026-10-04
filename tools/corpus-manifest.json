@@ -1,0 +1,462 @@
+{
+  "root": "<DSH_HOME>/sessions",
+  "generatedAt": 1791120072492,
+  "sessions": [
+    {
+      "id": "078e2aab-9b48-4aa1-a3fc-ff893387258d",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 32354,
+      "createdAt": 1790965105513,
+      "decodable": true,
+      "hasUsage": false
+    },
+    {
+      "id": "1bca79fd-75dd-437a-a9d8-bc8ea148bcee",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 581449,
+      "createdAt": 1791108253791,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "2749ba9b-04e9-43e9-be1d-98e003649559",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 551756,
+      "createdAt": 1790965398015,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "28976db6-02ee-4ceb-83ca-ca273dd45fdb",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 463681,
+      "createdAt": 1790960188107,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "3e524b82-6b1b-4f92-b7f2-7652e20073a9",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 142652,
+      "createdAt": 1790957905152,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "4404d64f-4fca-4cf0-9533-0a924d5788f2",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 410549,
+      "createdAt": 1790960188111,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "453549ff-4f3a-449a-a708-d5461217d829",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 463109,
+      "createdAt": 1791119597252,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "54644d87-5e0e-4b23-a879-d84a323c7415",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 644328,
+      "createdAt": 1790965398119,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "54fbefd3-f1ee-4cd1-822b-5335d9336512",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 456687,
+      "createdAt": 1791012811037,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "55172b1d-94cc-48f9-82de-f4ab0064ac21",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 269279,
+      "createdAt": 1790957904966,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "58ef76d5-3921-47dd-9b32-2c17d099e904",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 516835,
+      "createdAt": 1790965416948,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "59bc117d-2194-439a-8eee-0dc5a07daacd",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 180511,
+      "createdAt": 1790957904872,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "83bc8448-2025-4c6c-8a18-0378afbe9e2a",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 251143,
+      "createdAt": 1790957904770,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "8a799b19-fdfd-4c88-be7a-2fbc392fc631",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 245697,
+      "createdAt": 1790964701711,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "8cc8cdeb-7492-4b90-b475-0bc3795ec2af",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 294741,
+      "createdAt": 1791115275624,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "8d5f6c0e-9d40-4098-9822-0668e26375af",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 108386,
+      "createdAt": 1790957905062,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "964f96e6-3d8f-4f51-af4a-3236d3f335fd",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 323529,
+      "createdAt": 1790965591289,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "98162155-4eb0-4e33-8bf1-fd34bc951ecb",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 646689,
+      "createdAt": 1790965416845,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "a4480099-63f0-4a3e-b68e-d363f265da1b",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 527482,
+      "createdAt": 1790964701712,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "aa64beb1-0c22-434c-ab31-63014533ca90",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 127152,
+      "createdAt": 1791115355733,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "b2c37802-b4d3-479f-b3e7-a98f3027d54c",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 281590,
+      "createdAt": 1790965591289,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "b495c1ed-758c-44c6-b839-930bdda19952",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 745308,
+      "createdAt": 1791111739480,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "c674f565-33fd-4d17-9569-da3be27b30b9",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 1202050,
+      "createdAt": 1791111739479,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "c679e85e-feeb-4829-9e0f-7b589eb56319",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 396973,
+      "createdAt": 1791119597251,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "cf29ee4c-a840-4eb3-931f-7f3eaad66947",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 239918,
+      "createdAt": 1791042106427,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "ff2c1475-43f5-4d44-b5b2-fa2d60b956d6",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 202002,
+      "createdAt": 1791042106426,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-084773ad-01e5-48bd-b637-0e6c926bc3b3",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 18264,
+      "createdAt": 1791101533549,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-0e3ae761-649c-41c8-9b9e-0d28d1a23543",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 22961,
+      "createdAt": 1791105761669,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-13e1a104-979f-4c77-9aae-6763e7983a54",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 4496331,
+      "createdAt": 1790964814074,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-1fa60ec9-8498-437d-b8ed-b05a2fef57ec",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 275189,
+      "createdAt": 1790964431683,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-245418f1-97d8-438a-a911-76862efaea37",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 15125,
+      "createdAt": 1791105726909,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-2f5778c1-d4da-4816-af5d-ef6cdcfa89a0",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 580616,
+      "createdAt": 1789996945127,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-3ca92125-8ffc-49a7-86df-e23a8a3c9676",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 421175,
+      "createdAt": 1790741295932,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-3cd028ed-bb66-4969-84d2-7b1a9e867956",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 2908200,
+      "createdAt": 1791070323280,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-574f7f9e-a390-4f96-8221-c17502e51838",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 329,
+      "createdAt": 1790957232187,
+      "decodable": true,
+      "hasUsage": false
+    },
+    {
+      "id": "session-6392ea2c-d2aa-42ab-acc3-a0ec53759982",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 768408,
+      "createdAt": 1791070631622,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-6e033dac-4b0c-47db-be47-572031181506",
+      "group": "--D-~6559~5E08~8D44~6599--",
+      "bytes": 918929,
+      "createdAt": 1788623379169,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-75b0ae57-2fb9-43b1-b557-7614c40bc4e2",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 2492402,
+      "createdAt": 1789401819840,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-7e944e26-0c9d-4085-b3a5-f2651a535292",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 725563,
+      "createdAt": 1790959328589,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-878bedc4-4668-4ec2-b6da-03e5b25ffd16",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 1354348,
+      "createdAt": 1791114643654,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-8bc7a0b2-5baa-4427-a7be-98e4ad5fb8f2",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 120978,
+      "createdAt": 1791109975577,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-93445b26-e119-49bb-82d9-6a99d424ce68",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 48462,
+      "createdAt": 1790084266667,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-a404f611-c3b5-4300-8c75-f4e70186fe2b",
+      "group": "--E-AI-~6570~7ADE--",
+      "bytes": 354,
+      "createdAt": 1788622440293,
+      "decodable": true,
+      "hasUsage": false
+    },
+    {
+      "id": "session-a4bf1e60-29b1-413e-a955-629595e64454",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 13909,
+      "createdAt": 1791105616580,
+      "decodable": true,
+      "hasUsage": false
+    },
+    {
+      "id": "session-aa90ef69-9f50-4e0b-b928-348e6f4e4903",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 38614,
+      "createdAt": 1790957249734,
+      "decodable": true,
+      "hasUsage": false
+    },
+    {
+      "id": "session-aff6cda6-3515-4dc7-b907-caad0fbbbfa8",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 47175,
+      "createdAt": 1791110327969,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-b81f59f8-f7e6-4792-816b-69ae8287f8e8",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 3021566,
+      "createdAt": 1791110372058,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-b992feec-94c4-4ba1-8466-e40240beaf14",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 274904,
+      "createdAt": 1790957477758,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-bf330d10-0914-48a3-8757-72a6a6311788",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 241302,
+      "createdAt": 1790742029095,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-c0acb35e-662f-41a8-ad34-8c64298028a8",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 17122153,
+      "createdAt": 1788842914943,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-d7caec6e-1f04-4322-b397-f3c68ca29892",
+      "group": "--D-~6559~5E08~8D44~6599--",
+      "bytes": 353,
+      "createdAt": 1788687081014,
+      "decodable": true,
+      "hasUsage": false
+    },
+    {
+      "id": "session-da86b1a3-320f-4ff7-9aca-88cb45efd721",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 1002513,
+      "createdAt": 1790957310756,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-db529c7a-dca4-4ae7-8e10-ea47cbfe8944",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 1334112,
+      "createdAt": 1789996599774,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-e113dd80-d9a1-401c-9f71-c31fcd5cf77b",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 1795385,
+      "createdAt": 1791116643989,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-e2ef108a-978a-43ae-b0f3-db000fe3d48c",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 323622,
+      "createdAt": 1791107937571,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-ed772c47-01fa-4ddc-851f-cd5beee1ea9f",
+      "group": "--E-DSH~63D2~4EF6--",
+      "bytes": 1911310,
+      "createdAt": 1790311765206,
+      "decodable": true,
+      "hasUsage": true
+    },
+    {
+      "id": "session-f6ca3764-89dd-466f-b4df-9ddebea8e8d7",
+      "group": "--E-AI-~81EA~7531~7EC4--",
+      "bytes": 959575,
+      "createdAt": 1791111332377,
+      "decodable": true,
+      "hasUsage": true
+    }
+  ]
+}

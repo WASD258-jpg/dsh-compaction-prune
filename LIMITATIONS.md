@@ -75,16 +75,27 @@ bound its request in bytes — is unbuilt.**
 Even within its narrow scope:
 
 - **It reduces trigger frequency; it does not eliminate triggers.** A session can
-  still cross the compaction threshold.
+  still cross the compaction threshold. **Measured: on the recorded corpus it
+  reduces neither** — see [`REPORT.md`](REPORT.md) §3.
+- **`mode: prune` cannot currently act at all.** The observer runs inside
+  `Session.append()`, where the store's re-entrancy guard is already raised, so
+  every `pruneSession()` call is rejected. `mode: warn` is the only mode whose
+  decision path runs end to end. See [`REPORT.md`](REPORT.md) §2.3.
 - **It cannot rescue an already-stuck session.** Once the context exceeds the
   transport limit, pruning removes too little to matter.
-- **It has not been measured end-to-end.** Each step is tested in isolation; no
-  before/after measurement on a live long session exists. See README.md.
+- **It has now been measured, and the effect was not found.** Every component is
+  tested, and the plugin boots, configures, and decides correctly — but granting
+  it the effect it cannot currently deliver, **7 of 8** recorded compactions
+  remain arithmetically unavoidable. See [`REPORT.md`](REPORT.md).
 - **Its effect is workload-dependent.** A session dominated by large tool results
   benefits most. A session whose bulk is assistant reasoning or user messages
-  benefits little, because there is nothing prunable.
+  benefits little, because there is nothing prunable. **Measured: the one
+  avoidance came from a tool-heavy session (`tool/result` 39% of surface); the
+  assistant-heavy session avoided nothing.**
 - **It competes for the same resource as compaction.** Both rewrite the session
-  surface. Running this plugin does not remove compaction's own pruning pass.
+  surface. Running this plugin does not remove compaction's own pruning pass —
+  and because compaction runs that pass *before* it commits, a plugin that prunes
+  earlier finds the surface already emptied.
 
 ---
 

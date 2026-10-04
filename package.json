@@ -56,6 +56,19 @@
     "@deepseek-ai/dsh-token-meter": "0.2.0-rc.2"
   },
   "scripts": {
-    "test": "node tests/decide.spec.mjs && node tests/mount.spec.mjs && node tests/config-loading.spec.mjs"
+    "test": "node tests/decide.spec.mjs && node tests/mount.spec.mjs && node tests/config-loading.spec.mjs",
+    "test:a1": "node tests/a1-mechanism.spec.mjs",
+    "test:failure-modes": "node tools/failure-modes.mjs",
+    "test:a2-selftest": "node tools/a2-counterfactual.mjs --selftest --manifest",
+    "test:report": "node tools/verify-report.mjs",
+    "test:docs": "node tools/check-language-pairs.mjs && node tools/check-links.mjs",
+    "corpus:pin": "node tools/corpus.mjs build",
+    "corpus:show": "node tools/corpus.mjs show",
+    "a2": "node tools/a2-counterfactual.mjs --manifest",
+    "a2:sweep": "node tools/a2-counterfactual.mjs --sweep",
+    "recon": "node tools/recon.mjs",
+    "trace": "node tools/trace.mjs",
+    "decompose": "node tools/decompose.mjs",
+    "trigger-audit": "node tools/trigger-audit.mjs"
   }
 }

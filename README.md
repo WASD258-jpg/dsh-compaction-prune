@@ -2,6 +2,30 @@
 
 # dsh-compaction-prune
 
+> ## ⚠️ Do not use this plugin. It has been measured and it does not work.
+>
+> The premise — that pruning tool results *earlier* than compaction would reduces
+> how often compaction fires — is **false**, for two independent reasons:
+>
+> 1. **`compaction-basic` already prunes before it compacts, and re-measures.**
+>    `compactIfNeeded` calls `prune.pruneSession(session)` at `index.ts:297` and
+>    re-measures at `:298` before appending `compaction/start`. There is no
+>    "earlier" left to occupy.
+> 2. **In a live session the prune never lands.** `Session.append()` sets its
+>    re-entrancy guard before dispatching `session/event`, so a prune from that
+>    listener throws `session append cannot reenter while another append is being
+>    published`. The plugin's `catch` swallows it; the symptom is silence.
+>
+> Replaying the recorded token trajectories and granting the plugin its full
+> effect, **7 of 8 compactions remain unavoidable**; the one avoidance cleared a
+> 258-token crossing in the only session where the pruner had never run.
+>
+> **The measurement, with an independent re-derivation from raw bytes, is in
+> [`REPORT.md`](REPORT.md).** The recommendation was retracted in
+> [`dsh-compaction-guide`](https://github.com/WASD258-jpg/dsh-compaction-guide)
+> §7. This repository is kept public as a worked example of a plausible mechanism
+> that does not survive contact with the whole system.
+
 **Proactive tool-result pruning for DeepSeek Harness — fewer compaction attempts, so a failing compaction has fewer chances to fail.**
 
 > **This plugin is deliberately incomplete.** It addresses one narrow symptom of a
@@ -10,6 +34,12 @@
 > [`dsh-compaction-guide`](https://github.com/WASD258-jpg/dsh-compaction-guide)
 > for the surrounding analysis. If you are looking for a fix that stops a session
 > from dying, this is not it.
+
+> **Both of the above are now moot.** The plugin was measured and its central
+> claim does not hold — see
+> [Effect — measured, and the claim does not hold](#effect--measured-and-the-claim-does-not-hold)
+> and [`REPORT.md`](REPORT.md). The banner at the top of this file is the current
+> status; the two paragraphs above describe what the plugin was built to be.
 
 ---
 
@@ -148,22 +178,77 @@ the field:
 **The plugin is not silently half-active; it is fully absent, with a findable
 error.**
 
-### Effect — not verified
+### Effect — measured, and the claim does not hold
 
-| Claim | Verified how |
+Measured. See [`REPORT.md`](REPORT.md) for the full method, every number, and the
+limits of the counterfactual.
+
+| Claim | Result |
 |---|---|
 | Configuration validation rejects bad input | 8 malformed inputs, each rejected with a field-naming message |
 | `decide()` is correct on every branch | 6 branches, including two must-never-act cases |
-| **It reduces compaction frequency in a live session** | **NOT VERIFIED.** |
+| The decision path works in a real composition | pass — 41 checks, zero model calls |
+| **It reduces compaction frequency in a live session** | **Not achieved.** See below. |
 
-That last row is the honest gap. Every component is tested, and the plugin boots
-and configures correctly — but **no measurement demonstrates that enabling it on a
-long session actually reduces compaction attempts.** That needs a controlled
-before/after on a real workload, which has not been run.
+**A defect: `mode: prune` cannot act at all.** The observer runs from the plugin's
+`session/event` listener, and `Session.append()` raises its re-entrancy guard
+*before* dispatching that listener. So when the observer calls
+`pruner.pruneSession(session)`, the pruner's own `session.append()` is rejected:
 
-If you try it, the numbers worth reporting are compaction attempts per session
-with `mode: warn` versus `mode: prune`, plus the `pruneSession()` results in the
-log.
+```
+compaction-prune: prune failed: session append cannot reenter while another append is being published
+```
+
+Every attempt fails, on every event, in every session; `stats.acted` stays at
+`0`. The failure is swallowed at `warn` level, so the symptom is silence. Start
+with `mode: warn` is therefore not just prudent advice — it is the only mode whose
+decision path runs end to end.
+
+**And on a deployment where the pruner itself is disabled, it fails silently
+instead.** `dsh-purge` rewrites the harness's tool-result pruner so that
+`pruneContent()` returns `null` unconditionally. Then `pruneSession()` never
+appends, the re-entrancy guard never fires, and the plugin logs a *success*:
+
+```
+compaction-prune: pruned 0 node(s), 0 chars removed — 10030 >= 2800, 23616 chars removable
+```
+
+`stats.acted` increments and the cooldown arms. The failure has changed shape from
+"throws and warns every event" to **"reports success while doing nothing"** —
+strictly worse for diagnosis. Note what this implies: **fixing the synchronous
+timing would still not make pruning work there**, because the pruner is neutered
+upstream of the plugin. `npm run test:failure-modes` reproduces this, plus three
+smaller ones: a failed prune never arms its cooldown (so every event retries
+forever), `warn` mode overstates recoverable characters on astral text by up to
+2x, and a detached session receives no events at all.
+
+**And the arithmetic does not close either.** Replaying the pinned 57-session
+corpus (50 analysable, 8 real compactions) and granting the plugin the effect it
+cannot currently deliver:
+
+| Session | Peak tokens | Threshold | Crossed for real | Crossed counterfactually | Avoided |
+|---|---|---|---|---|---|
+| `session-13e1a104` | 678,722 | 678,464 | 1 / 1 | 0 | **1 / 1** |
+| `session-c0acb35e` | 802,075 | 678,464 | 7 / 7 | 7 | **0 / 7** |
+
+The rule fires — `decide()` acted in 7 of 50 sessions, and **8 of 8** real
+compactions were preceded by an `act: true` decision. But:
+
+- At **7 of the 8** boundaries the pruner's remaining reach is **exactly 0**:
+  `compaction-basic` runs the same pruner before committing, so a plugin that
+  prunes "earlier" finds nothing left to take.
+- The **1** avoidance is in the only session with **zero `compaction/prune`
+  events**, and it cleared a **258-token** crossing (0.038% of the window).
+- The verdict is **configuration-invariant**: at `triggerRatio: 0.05` with
+  `minimumCharsRemoved: 0` and `cooldownMs: 0` the plugin prunes on 2,068 of
+  2,104 settlements and still avoids **0**.
+
+`REPORT.md` §0 states the limits of that measurement first: it is an **arithmetic**
+counterfactual, so "avoided" never means "behaviourally avoided". A total still
+above the threshold is decisive against the plugin; a total below it is only a
+necessary condition for avoidance.
+
+Whether `warn` mode's own overhead is worth paying has not been measured.
 
 ---
 

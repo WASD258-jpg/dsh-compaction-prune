@@ -63,6 +63,39 @@ jobs:
       - name: Package-name availability
         run: node tests/availability.spec.mjs
 
+      # The measurement tooling reads session logs from a path that must not be
+      # baked into the repository. A developer path was committed into 12 places
+      # once already; this asserts none returns.
+      #
+      # .github is excluded: this file contains the patterns themselves, so a
+      # naive scan matches its own grep and fails forever.
+      - name: No developer path is embedded
+        run: |
+          hits=$(grep -rIl --exclude-dir=node_modules --exclude-dir=.git \
+                   --exclude-dir=.github \
+                   -e 'C:\\Users\\' -e '/home/' -e '/Users/' . || true)
+          if [ -n "$hits" ]; then
+            echo "a developer path is embedded in:"
+            echo "$hits"
+            exit 1
+          fi
+          echo "no developer path embedded"
+
+      - name: Session tooling is portable
+        run: |
+          # Each tool must reach its own empty-result path rather than crashing on
+          # a missing directory or a missing import. That distinguishes a portable
+          # script from one that only runs where it was written -- which is how a
+          # developer path survived in twelve places.
+          for f in tools/recon.mjs tools/trace.mjs tools/trigger-audit.mjs; do
+            out=$(DSH_HOME=/tmp/nonexistent-dsh-home node "$f" 2>&1 || true)
+            if echo "$out" | grep -qE 'ERR_MODULE_NOT_FOUND|is not defined|ENOENT'; then
+              echo "FAIL: $f is not portable"
+              echo "$out" | head -4
+              exit 1
+            fi
+            echo "ok: $f"
+          done
       - name: Boot through the real Cordis Loader
         run: node tests/loader-e2e.spec.mjs
 
