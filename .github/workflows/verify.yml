@@ -100,20 +100,14 @@ jobs:
         run: node tests/loader-e2e.spec.mjs
 
       - name: Test suites fail loudly on a positive problem marker
-        run: |
-          # Every suite prints [PROBLEM]/[FAIL]/[WRONGLY ACCEPTED] when something
-          # is wrong. Assert none appear, so a suite cannot pass while reporting a
-          # defect it detected but did not exit on.
-          fail=0
-          for t in tests/*.spec.mjs; do
-            out=$(node "$t" 2>&1)
-            if echo "$out" | grep -qE '\[PROBLEM\]|\[FAIL\]|WRONGLY ACCEPTED'; then
-              echo "== $t reported a problem =="
-              echo "$out" | grep -E '\[PROBLEM\]|\[FAIL\]|WRONGLY ACCEPTED'
-              fail=1
-            fi
-          done
-          exit $fail
+        run: bash tools/ci-test-preflight.sh
+        # The script carries a positive run plus two negative controls: a synthetic
+        # suite that prints a marker must fail the step, and one that exits non-zero
+        # must fail it too. A guard that cannot fail is not a guard.
+        #
+        # Moving it into a script also means local preflight and CI run the same
+        # code, so they cannot drift -- the previous inline version passed locally
+        # under PowerShell while failing on the runner.
 
   package:
     name: package integrity
@@ -171,26 +165,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: README states the unverified claim, in BOTH languages
+      - name: README carries the withdrawal, in BOTH languages
         run: |
-          # This plugin's whole credibility rests on stating what it cannot do.
-          # If a future edit removes the limitation section, fail.
+          # This plugin's credibility now rests on the withdrawal being visible. The
+          # status moved from "effect not verified" to "measured, and the claim does
+          # not hold", so the assertion moved with it: what must not disappear is the
+          # withdrawal itself, in either language.
           #
-          # The Chinese version is checked too. A translation that quietly drops a
-          # caveat would make the Chinese README more confident than the evidence
-          # supports -- the exact failure this repository exists to document, and
-          # one that is easy to introduce because it does not break any build.
+          # The Chinese version is checked separately. A translation that quietly
+          # drops a retraction would leave a Chinese reader installing a plugin the
+          # English README tells them not to use -- easy to introduce, and it breaks
+          # no build without this check.
           grep -q 'LIMITATIONS.md' README.md || { echo "README.md must link LIMITATIONS.md"; exit 1; }
+          grep -qiE 'Do not use this plugin|does not work|withdrawn|retract' README.md || {
+            echo "README.md must carry the withdrawal"; exit 1; }
           grep -qiE 'not a fix|deliberately incomplete|partial' README.md || {
             echo "README.md must state that this is a partial measure"; exit 1; }
 
           grep -q 'LIMITATIONS' README.zh.md || { echo "README.zh.md must link LIMITATIONS"; exit 1; }
+          grep -qE '不要使用本插件|不成立|撤回' README.zh.md || {
+            echo "README.zh.md must carry the withdrawal"; exit 1; }
           grep -qE '刻意不完整|不是修复|部分措施' README.zh.md || {
             echo "README.zh.md must state that this is a partial measure"; exit 1; }
-          grep -q '未验证' README.zh.md || {
-            echo "README.zh.md must carry the unverified-effect claim"; exit 1; }
 
-          echo "ok: README.md and README.zh.md"
+          echo "ok: both READMEs carry the withdrawal"
 
       - name: LIMITATIONS states the upstream requirements, in BOTH languages
         run: |

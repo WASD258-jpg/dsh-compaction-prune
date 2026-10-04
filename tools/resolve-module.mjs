@@ -12,6 +12,7 @@
  */
 
 import { readdirSync, existsSync, readFileSync } from 'node:fs'
+import { homedir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
