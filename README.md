@@ -2,6 +2,12 @@
 
 # dsh-compaction-prune
 
+> **Translations in this repository are maintained by hand, not generated.**
+> If you are reading this through a browser's built-in translation, the terms
+> will not match the ones used here — `prune` becomes "trim", `compaction`
+> becomes "compression", and the distinction the withdrawal depends on is lost.
+> **[中文版在此](README.zh.md)**，术语与本文一致。
+
 > ## ⚠️ Do not use this plugin. It has been measured and it does not work.
 >
 > The premise — that pruning tool results *earlier* than compaction would reduces

@@ -2,6 +2,12 @@
 
 # dsh-compaction-prune
 
+> **本仓库的译文是人工维护的，不是机器生成。**
+> 如果你正在通过浏览器自带的翻译阅读本文，术语将与这里的用法不符 ——
+> `prune` 会被译成「修剪」、`compaction` 会被译成「压缩」，
+> 而撤回结论所依赖的那组区分会因此丢失。
+> **[English version here](README.md)** — terminology matches this document.
+
 > ## ⚠️ 不要使用本插件。它已被测量，且它不成立。
 >
 > 其前提 —— 比压缩更早地裁剪工具结果，可以降低压缩触发频率 —— 是**错的**，
